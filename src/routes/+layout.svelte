@@ -2,17 +2,14 @@
   import { base } from '$app/paths';
 </script>
 <header>
-  <img src="" alt="logo">
   <div class="h-center">
-    <h2>Argos Statistics</h2>
     <div class="links">
-      <a href={`${base}/home`}>home</a>
+      <a href={`${base}/`}>home</a>
       <a href={`${base}/bio`}>bio</a>
       <a href={`${base}/showcase`}>showcase</a>
       <a href={`${base}/contact`}>contact</a>
     </div>
   </div>
-  <img src="" alt="logo">
 </header>
 <slot/>
 <style>
@@ -28,16 +25,18 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
+
   }
 
   .h-center {
     width: 40%;
+    height: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,6 +50,15 @@
     & a {
       text-decoration: none;
       color: white;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .h-center {
+      width: 100%;
+    }
+    .links {
+      justify-content: space-around;
     }
   }
 
