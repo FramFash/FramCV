@@ -28,7 +28,7 @@ jobs:
 
       - name: build
         env:
-           BASE_PATH: '/FramCV'
+         BASE_PATH: '/FramCV'
         run: |
           npm run build
 
@@ -43,14 +43,14 @@ jobs:
       runs-on: ubuntu-latest
 
       permissions:
-      pages: write
-      id-token: write
+        pages: write
+        id-token: write
 
       environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
 
       steps:
-      - name: Deploy
-      id: deployment
-      uses: actions/deploy-pages@v4
+        - name: Deploy
+          id: deployment
+          uses: actions/deploy-pages@v4
