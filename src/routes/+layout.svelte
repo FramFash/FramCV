@@ -48,7 +48,6 @@
     display: flex;
     justify-content: space-between;
     & a {
-      text-decoration: none;
       color: white;
     }
   }

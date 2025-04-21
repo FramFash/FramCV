@@ -17,7 +17,7 @@
   const scul = currentDate.getFullYear() - 2020;
 </script>
 <div class="main-container">
-  <h2 style="color: white; margin-top: 10rem;">Adolfo Almazán Becerril</h2>
+  <h2>Adolfo Almazán Becerril</h2>
   <div class="info-card">
     <div class="personal-info">
       <p>
@@ -174,16 +174,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-
-  .top-info {
-    display: flex;
-    justify-content: space-around;
-    width: 90%;
-    margin-top: 2rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px 2px #F05F57;
-    background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
+    & h2 {
+      color: white;
+      margin-top: 10rem;
+    }
   }
 
   .info-card {
@@ -223,21 +217,6 @@
     align-items:flex-start;
   }
 
-  .row {
-    grid-column: 1 / 3;
-    display: flex;
-    align-items: center;
-
-    & img {
-      margin-left: 0.5rem;
-      width: 30px;
-    }
-
-    & * {
-      margin: 0.5rem;
-    }
-  }
-
 .statistics {
   margin: 2rem 0;
   width: 90%;
@@ -267,6 +246,9 @@
 }
 
 @media (max-width: 500px) {
+  .main-container h2 {
+    margin-top: 6rem;
+  }
   .skill {
     font-size: 0.6rem;
     & h4 {

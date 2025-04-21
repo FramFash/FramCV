@@ -163,7 +163,6 @@ Software a Medida</h4>
   }
 
   .service-list {
-    height: 100%;
     width: 100%;
     border-radius: 5px;
     box-shadow: 0 0 10px 2px white;
@@ -184,11 +183,12 @@ Software a Medida</h4>
   }
 
   @media (max-width: 500px) {
-    .main-img {
-      width: 100%;
+    .main-container {
+      margin-top: 4rem;
     }
     .services {
       gap: 0.5rem;
+      display: block;
     }
   }
 
