@@ -249,15 +249,19 @@
   .main-container h2 {
     margin-top: 6rem;
   }
+  .statistics {
+    gap: 0.5rem;
+  }
   .skill {
     font-size: 0.6rem;
+    box-shadow: 0 0 5px 1px white;
     & h4 {
       margin-left: 0.5rem;
     }
   }
   .info-card {
     margin-top: 1rem;
-    width: 90%;
+    width: 100%;
     background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
     border-radius: 5px;
     box-shadow: 0 0 10px 2px #F05F57;
@@ -265,10 +269,14 @@
     grid-template-columns: 100%;
   }
   .basic-data {
+    margin: 10px;
     grid-column: 1/2;
     display: flex;
     flex-direction: column;
     align-items:flex-start;
+  }
+  .other-exp {
+    width: 100%;
   }
 }
 </style>

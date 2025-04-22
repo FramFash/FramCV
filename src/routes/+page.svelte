@@ -65,7 +65,10 @@ Software a Medida</h4>
       </ul>
     </div>
     <h2>Proyectos Previos</h2>
-    <div class="proyectos">
+    
+  </div>
+
+<div class="proyectos">
       <h4>Plataforma de Monitoreo de Obras Para Puentes y Autopistas Federales</h4>
       <p>
         Se realizó una plataforma compuesta por una base de datos y una aplicación de escritorio
@@ -123,17 +126,12 @@ Software a Medida</h4>
       </p>
     </div>
   </div>
-</div>
 <style>
   .main-container {
     margin-top: 8rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .main-img {
-    width: 600px;
   }
 
   .leader-card {
@@ -174,6 +172,8 @@ Software a Medida</h4>
   }
 
   .proyectos {
+    margin-top: 20px;
+    width: 90%;
     grid-column: 1 / 3;
     padding: 1rem;
     border-radius: 5px;
@@ -189,6 +189,24 @@ Software a Medida</h4>
     .services {
       gap: 0.5rem;
       display: block;
+      padding: 0;
+    }
+
+    .proyectos {
+      margin-top: 20px;
+      width: 100%;
+
+      & * {
+        margin: 10px;
+      }
+    }
+    .leader-card {
+      padding: 0;
+      width: 100%;
+
+      & * {
+        margin: 10px;
+      }
     }
   }
 
