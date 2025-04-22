@@ -64,11 +64,9 @@ Software a Medida</h4>
         <li>Implementaciones en la nube/híbridas con equilibrio costo-rendimiento.</li>      
       </ul>
     </div>
-    <h2>Proyectos Previos</h2>
-    
-  </div>
 
-<div class="proyectos">
+    <h2>Proyectos Previos</h2>
+    <div class="proyectos">
       <h4>Plataforma de Monitoreo de Obras Para Puentes y Autopistas Federales</h4>
       <p>
         Se realizó una plataforma compuesta por una base de datos y una aplicación de escritorio
@@ -124,8 +122,9 @@ Software a Medida</h4>
         este servicio manejará un chatbot desarrollado con modelos de MachineLearning para dar retroalimentación
         a los usuarios sobre su progreso además de responder a preguntas especificas que tenga el usuario.
       </p>
-    </div>
+    </div> 
   </div>
+</div>
 <style>
   .main-container {
     margin-top: 8rem;
@@ -172,29 +171,46 @@ Software a Medida</h4>
   }
 
   .proyectos {
-    margin-top: 20px;
-    width: 90%;
+    margin-top: 10px;
+    width: 100%;
     grid-column: 1 / 3;
-    padding: 1rem;
     border-radius: 5px;
     background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
     box-shadow: 0 0 10px 2px #F05F57;
+
+    & * {
+      margin: 1rem;
+    }
 
   }
 
   @media (max-width: 500px) {
     .main-container {
       margin-top: 4rem;
+
+      & h4 {
+        margin: 10px;
+      }
     }
     .services {
+      width: 100%;
       gap: 0.5rem;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 0;
+    }
+
+    .service-list {
+      width: 90%;
     }
 
     .proyectos {
       margin-top: 20px;
       width: 100%;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: 0 0 5px 1px #F05F57;
 
       & * {
         margin: 10px;
@@ -203,6 +219,8 @@ Software a Medida</h4>
     .leader-card {
       padding: 0;
       width: 100%;
+      border-radius: 0;
+      box-shadow: 0 0 5px 1px #F05F57;
 
       & * {
         margin: 10px;

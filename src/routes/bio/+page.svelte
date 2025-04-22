@@ -263,8 +263,8 @@
     margin-top: 1rem;
     width: 100%;
     background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
-    border-radius: 5px;
-    box-shadow: 0 0 10px 2px #F05F57;
+    border-radius: 0px;
+    box-shadow: 0 0 5px 1px #F05F57;
     display: grid;
     grid-template-columns: 100%;
   }
@@ -277,6 +277,10 @@
   }
   .other-exp {
     width: 100%;
+  }
+  .info-card-alt {
+    border-radius: 0;
+    box-shadow: 0 0 5px 1px #F05F57;
   }
 }
 </style>
