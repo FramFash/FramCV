@@ -219,7 +219,7 @@
 
 .statistics {
   margin: 2rem 0;
-  width: 90%;
+  width: 80%;
   display: grid;
   grid-template-columns: 50% 50%;
   gap: 1rem;
@@ -238,7 +238,7 @@
   transition: 0.5s;
   background-size: 200% auto;
   color: white;            
-  box-shadow: 0 0 10px 2px white;
+  box-shadow: 0 0 5px 1px white;
 
   & h4 {
     margin: auto;
@@ -247,16 +247,17 @@
 
 @media (max-width: 500px) {
   .main-container h2 {
-    margin-top: 6rem;
+    margin-top: 3rem;
   }
   .statistics {
+    width: 90%;
     gap: 0.5rem;
   }
   .skill {
     font-size: 0.6rem;
     box-shadow: 0 0 5px 1px white;
     & h4 {
-      margin-left: 0.5rem;
+      margin-left: auto 0;
     }
   }
   .info-card {

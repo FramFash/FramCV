@@ -10,8 +10,8 @@ Software a Medida</h4>
       Resumen de Experiencia:
     </h3>
     <p>
-      Ayudo a empresas a automatizar flujos de trabajo, diseñar sistemas de datos escalables y desarrollar
-      software personalizado para mejorar eficiencia y toma de decisiones. Mis habilidades integran ciencia de datos,
+      Ayudamos a empresas a automatizar flujos de trabajo, diseñar sistemas de datos escalables y desarrollar
+      software personalizado para mejorar eficiencia y toma de decisiones. Nuestras habilidades integran ciencia de datos,
       ingenierı́a de software y diseño de procesos, garantizando soluciones técnicas y prácticas.
     </p>
     <h3>
@@ -19,7 +19,7 @@ Software a Medida</h4>
     </h3>
     <ul>
       <li>
-        Enfoque Integral: Combino profundidad técnica con entendimiento del negocio.
+        Enfoque Integral: Combinamos profundidad técnica con entendimiento del negocio.
       </li>
       <li>
         Orientado a Eficiencia: Soluciones que reducen trabajo manual y escalan.
@@ -124,6 +124,8 @@ Software a Medida</h4>
       </p>
     </div> 
   </div>
+  <div class="space-bottom">
+  </div>
 </div>
 <style>
   .main-container {
@@ -151,7 +153,7 @@ Software a Medida</h4>
     padding: 1rem;
     display: grid;
     grid-template-columns: 50% 50%;
-    gap: 2rem;
+    gap: 1rem;
 
     & h2 {
       margin: auto;
@@ -186,10 +188,10 @@ Software a Medida</h4>
 
   @media (max-width: 500px) {
     .main-container {
-      margin-top: 4rem;
+      margin-top: 2rem;
 
       & h4 {
-        margin: 10px;
+        margin: 10px 10px 40px 10px;
       }
     }
     .services {

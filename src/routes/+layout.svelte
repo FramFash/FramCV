@@ -26,12 +26,11 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
-
+    background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
+    background-blend-mode: multiply,multiply;
   }
 
   .h-center {
@@ -49,10 +48,20 @@
     justify-content: space-between;
     & a {
       color: white;
+      text-decoration: none;
+      border: 1px solid lightgray;
+      border-radius: 10px;
+      padding: 0.5rem;
+      box-shadow: 0 0 1px 1px white;
     }
   }
 
   @media (max-width: 500px) {
+    header {
+      margin-top: 30px;
+      position: relative;
+    }
+
     .h-center {
       width: 100%;
     }

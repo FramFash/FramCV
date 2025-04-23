@@ -57,4 +57,10 @@
   }
 }
 
+@media (max-width: 500px) {
+  .top-info {
+    margin-top: 4rem;
+  }
+}
+
 </style>
