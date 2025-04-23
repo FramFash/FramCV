@@ -3,8 +3,11 @@
 
 </script>
 <div class="main-container">
-  <h4>Ciencia de Datos & Arquitectura de Sistemas — Optimización de Procesos — Soluciones de
-Software a Medida</h4>
+  <h3>Ciencia de Datos & Arquitectura de Sistemas — Optimización de Procesos — Soluciones de
+Software a Medida</h3>
+  <div class="show-image">
+    <img src={`${base}/images/Logo.png`} alt="logo">
+  </div>
   <div class="leader-card">
     <h3>
       Resumen de Experiencia:
@@ -129,10 +132,22 @@ Software a Medida</h4>
 </div>
 <style>
   .main-container {
-    margin-top: 8rem;
+    margin-top: 3.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .show-image {
+    width: 100%;
+    height: 30rem;
+    display: flex;
+    justify-content: center;
+
+    & img {
+      width: 90%;
+      height: 95%;
+    }
   }
 
   .leader-card {
@@ -192,6 +207,17 @@ Software a Medida</h4>
 
       & h4 {
         margin: 10px 10px 40px 10px;
+      }
+    }
+    .show-image {
+      width: 100%;
+      height: 20rem;
+      display: flex;
+      justify-content: center;
+
+      & img {
+        width: 100%;
+        height: 100%;
       }
     }
     .services {
