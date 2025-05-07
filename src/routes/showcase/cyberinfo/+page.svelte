@@ -188,4 +188,11 @@
     flex-direction: column;
     align-items: center;
   }
+
+  @media (max-width: 500px) {
+    .main-container {
+      margin-top: 1rem;
+      padding: 0.5;
+    }
+  }
 </style>
