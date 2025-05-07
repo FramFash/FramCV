@@ -12,8 +12,16 @@
   <a href="showcase/otro/" class="project">
     <h3>otro</h3>
     <p>
-      esta pagina revela la información que está accesible a el buscador y por resultado a el creador de
-      la pagina, es meramente informativa y no almacena ningun tipo de información.
+    </p>
+  </a>
+  <a href="showcase/otro/" class="project">
+    <h3>otro</h3>
+    <p>
+    </p>
+  </a>
+  <a href="showcase/otro/" class="project">
+    <h3>otro</h3>
+    <p>
     </p>
   </a>
 </div>
@@ -39,5 +47,15 @@
   .project:hover {
       background-position: right center; /* change the direction of the change here */
       text-decoration: none;
+  }
+
+  @media (max-width: 500px) {
+    .main-container {
+      margin: 1rem;
+    }
+    .project {
+      margin: 0.5rem;
+      font-size: 0.6rem;
+    }
   }
 </style>
