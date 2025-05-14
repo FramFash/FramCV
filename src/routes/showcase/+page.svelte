@@ -9,12 +9,11 @@
       la pagina, es meramente informativa y no almacena ningun tipo de información.
     </p>
   </a>
-  <a href="showcase/estadisticas/" class="project">
-    <h3>Estadisticas de Patinetas Electricas</h3>
+  <a href="showcase/estadisticas" class="project">
+    <h3>Estadisticas</h3>
     <p>
-      Una pagina de ejemplo de analisis estadístico de un producto, en este caso se analiza la oferta
-      de producto, sus capacidades técnicas y se trata de llegar a una evaluación logica de las mejores opciones
-      en el mercado
+      La intención de esta muestra es hacer un pequeño analisis estadistico de el mercado
+      de las patinetas electricas, se encuentra todavía bajo desarrollo!.
     </p>
   </a>
   <a href="showcase/otro/" class="project">

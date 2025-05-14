@@ -1,0 +1,195 @@
+<script>
+  import * as d3 from 'd3';
+  import { onMount, afterUpdate } from 'svelte';
+
+  export let boards;
+  
+  export let selectedStat = 'range';
+  
+  let svg;
+  let width = 750;
+  let height = 400;
+  let margin = { top: 20, right: 0, bottom: 120, left: 60 };
+
+  // Colors
+  const colors = {
+    axisLabels: '#6b7280', // Gray-500
+    bars: '#3b82f6',      // Blue-500
+    text: '#1f2937'       // Gray-800
+  };
+
+  // Handle window resize
+  const handleResize = () => {
+    if (!container) return;
+
+    //Get continer width ( with minimum 300px for mobile)
+    const containerWidth = Math.max(300, container.clientWidth -40);
+    width = containerWidth - margin.left - margin.right;
+
+    //Adjust height for mobile
+    height = window.innerWidth < 600 ? 300 : 400;
+
+    //Redraw chart
+    drawChart();
+  }
+
+  onMount(() => {
+    drawChart();
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  });
+
+  afterUpdate(() => {
+    drawChart();
+  });
+
+  function drawChart() {
+    if (!svg) return;
+
+    // Clear previous chart
+    d3.select(svg).selectAll("*").remove();
+
+    // Create SVG container
+    const chart = d3.select(svg)
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Create scales
+    const x = d3.scaleBand()
+      .domain(boards.map(d => d.name))
+      .range([0, width])
+      .padding(0.1);
+
+    const maxValue = d3.max(boards, d => d[selectedStat]);
+    const y = d3.scaleLinear()
+      .domain([0, maxValue * 1.1])
+      .nice()
+      .range([height, 0]);
+
+    // Add bars with animation
+    chart.selectAll(".bar")
+      .data(boards)
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("x", d => x(d.name))
+      .attr("width", x.bandwidth())
+      .attr("y", height) // Start from bottom
+      .attr("height", 0) // Start with zero height
+      .attr("fill", colors.bars)
+      .transition() // Add transition
+      .duration(1000) // 800ms animation
+      .attr("y", d => y(d[selectedStat]))
+      .attr("height", d => height - y(d[selectedStat]));
+
+    // Add x-axis with rotated labels and custom color
+    chart.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", "0.15em")
+      .style("fill", colors.axisLabels); // Set label color
+
+    // Add y-axis with custom color
+    chart.append("g")
+      .call(d3.axisLeft(y)
+        .tickFormat(d => {
+          if (selectedStat === 'price') return `$${d}`;
+          return d;
+        }))
+      .selectAll("text")
+      .style("fill", colors.axisLabels); // Set label color
+
+    // Add x-axis label with custom color
+//    chart.append("text")
+//      .attr("transform", `translate(${width / 2}, ${height + margin.top + 40})`)
+//      .style("text-anchor", "middle")
+//      .style("fill", colors.axisLabels) // Set label color
+//      .text("Skateboard Model");
+
+    // Add y-axis label with custom color
+    chart.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("fill", colors.axisLabels) // Set label color
+      .text(getAxisLabel());
+  }
+
+  function getAxisLabel() {
+    switch(selectedStat) {
+      case 'price': return 'Price';
+      case 'range': return 'Range (miles)';
+      case 'top_speed': return 'Top Speed (mph)';
+      case 'weight': return 'Weight (kg)';
+      default: return selectedStat;
+    }
+  }
+</script>
+
+<div class="stat-selector">
+  <select bind:value={selectedStat}>
+    <option value="range">Range</option>
+    <option value="top_speed">Top Speed</option>
+    <option value="price">Price</option>
+    <option value="weight">Weight</option>
+  </select>
+</div>
+<div class="chart-container">
+  <svg bind:this={svg}></svg>
+</div>
+
+<style>
+  .chart-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: sans-serif;
+    overflow-x: scroll;
+  }
+  
+  .stat-selector {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    color: #111827;
+    font-size: 14px;
+  }
+
+  /* Mobile specific styles */
+  @media (max-width: 600px) {
+    .chart-container {
+      width: 90%;
+      padding: 0 10px;
+    }
+
+    select {
+      width: 80%;
+      box-sizing: border-box;
+    }
+  }
+
+  /* Style for the axis lines */
+  :global(.domain) {
+    stroke: #d1d5db;
+  }
+
+  /* Style for the tick lines */
+  :global(.tick line) {
+    stroke: #e5e7eb;
+  }
+</style>
