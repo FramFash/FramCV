@@ -161,8 +161,11 @@
 <style>
   .linechart-container {
     position: relative;
-    width: 900px;
+    width: 100%;
     margin: 2rem auto;
+    overflow-x: scroll;
+    display: flex;
+    justify-content: center;
   }
   
   .line {
@@ -193,6 +196,11 @@
     pointer-events: none;
     font-size: 12px;
     z-index: 10;
+  }
+  @media (max-width: 500px) {
+    .linechart-container {
+      display: block;
+    }
   }
 </style>
 

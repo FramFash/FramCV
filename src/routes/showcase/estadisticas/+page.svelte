@@ -291,54 +291,56 @@
   <h2>Estado Actual del Mercado</h2>
 
   <h2>Jugadores Principales y valor en el mercado</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Marca</th>
-        <th>%Mercado</th>
-        <th>Especialización</th>
-        <th>Rango de Precios</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>Boosted</th>
-        <th>~15% (Pre-bancarota)</th>
-        <th>Alto rendimiento</th>
-        <th>1,000-2,000 USD</th>
-      </tr>
-      <tr>
-        <th>Evolve</th>
-        <th>~20%</th>
-        <th>Premium & Todo terreno</th>
-        <th>1,500-2,000USD</th>
-      </tr>
-      <tr>
-        <th>Meepo</th>
-        <th>~12%</th>
-        <th>Menor Precio</th>
-        <th>400-900USD</th>
-      </tr>
-      <tr>
-        <th>Exway</th>
-        <th>~10%</th>
-        <th>Funcionalidad Inteligente</th>
-        <th>700-1,500USD</th>
-      </tr>
-      <tr>
-        <th>Ownboard</th>
-        <th>~8%</th>
-        <th>Desempeño Balanceado</th>
-        <th>500-1,200USD</th>
-      </tr>
-      <tr>
-        <th>Otros</th>
-        <th>~35%</th>
-        <th>Marcas de Nicho, kits DIY</th>
-        <th>Variable</th>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Marca</th>
+          <th>%Mercado</th>
+          <th>Especialización</th>
+          <th>Rango de Precios</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Boosted</th>
+          <th>~15% (Pre-bancarota)</th>
+          <th>Alto rendimiento</th>
+          <th>1,000-2,000 USD</th>
+        </tr>
+        <tr>
+          <th>Evolve</th>
+          <th>~20%</th>
+          <th>Premium & Todo terreno</th>
+          <th>1,500-2,000USD</th>
+        </tr>
+        <tr>
+          <th>Meepo</th>
+          <th>~12%</th>
+          <th>Menor Precio</th>
+          <th>400-900USD</th>
+        </tr>
+        <tr>
+          <th>Exway</th>
+          <th>~10%</th>
+          <th>Funcionalidad Inteligente</th>
+          <th>700-1,500USD</th>
+        </tr>
+        <tr>
+          <th>Ownboard</th>
+          <th>~8%</th>
+          <th>Desempeño Balanceado</th>
+          <th>500-1,200USD</th>
+        </tr>
+        <tr>
+          <th>Otros</th>
+          <th>~35%</th>
+          <th>Marcas de Nicho, kits DIY</th>
+          <th>Variable</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <h2>Oferta de Mercado</h2>
   <div class="offer-container">
     {#each boards as value}
@@ -432,7 +434,7 @@
         </li>
       </ul>
     </div>
-    <div class="listas-item">
+    <div class="lista-item">
       <h3>Quejas Comunes</h3>
       <ul>
         <li><strong>Duración de Batería</strong> (Promocionada vs Real)</li>
@@ -441,7 +443,7 @@
         <li><strong>Seguridad</strong> (Roturas espontaneas, desconecciónes de los mandos)</li>
       </ul>
     </div>
-    <div class="listas-item">
+    <div class="lista-item">
       <h3>Funcionalidades mejor valoradas</h3>
       <ul>
         <li><strong>Rango</strong>(Prioridad principal)</li>
@@ -454,36 +456,38 @@
   </div>
   <h2>Tendencias de la Industria</h2>
   <h3>Analisis de Principales Marcas</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Marca</th>
-        <th>Fortalezas</th>
-        <th>Debilidades</th>
-        <th>Oportunidades</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>Evolve</th>
-        <th>Premium y Todo terreno</th>
-        <th>Costo elevado</th>
-        <th>Expandir a transporte Urbano</th>
-      </tr>
-      <tr>
-        <th>Meepo</th>
-        <th>Barato y buen desempeño</th>
-        <th>Diseños Básicos</th>
-        <th>Expansión Global</th>
-      </tr>
-      <tr>
-        <th>Exway</th>
-        <th>Funcionalidad Inteligente</th>
-        <th>Refacciónes limitadas</th>
-        <th>Servicios de Subscripción</th>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Marca</th>
+          <th>Fortalezas</th>
+          <th>Debilidades</th>
+          <th>Oportunidades</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Evolve</th>
+          <th>Premium y Todo terreno</th>
+          <th>Costo elevado</th>
+          <th>Expandir a transporte Urbano</th>
+        </tr>
+        <tr>
+          <th>Meepo</th>
+          <th>Barato y buen desempeño</th>
+          <th>Diseños Básicos</th>
+          <th>Expansión Global</th>
+        </tr>
+        <tr>
+          <th>Exway</th>
+          <th>Funcionalidad Inteligente</th>
+          <th>Refacciónes limitadas</th>
+          <th>Servicios de Subscripción</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h3>Tendencias Emergentes</h3>
   <ul>
@@ -501,12 +505,34 @@
   </ul>
 </div>
 <style>
+  .table-container {
+    display: flex;
+    justify-content: center;
+    overflow-x: scroll;
+  }
+
   table, thead, tbody, tr, th {
     border: 1px solid white;
   }
 
   .main-container {
     margin: 5rem 1rem 0 1rem;
+    overflow-x: hidden;
+  }
+
+  .listas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .lista-item {
+    border: 1px solid white;
+    border-radius: 6px;
+    background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
+    padding: 1rem;
+    margin: 1rem 0;
   }
 
   .offer-container {
@@ -549,9 +575,22 @@
     }
   }
 
-  @media (max-with: 500px) {
+  @media (max-width: 500px) {
+    .table-container {
+      display: block;
+    }
+
     .main-container {
       margin-top: 1rem;
+      overflow-x: scroll;
+    }
+
+    .listas {
+      display: block;
+    }
+
+    .lista-item {
+      display: block;
     }
   }
 </style>
