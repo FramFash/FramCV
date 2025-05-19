@@ -1,20 +1,9 @@
-<script lang="ts">
-  import D3Chart from "$lib/components/D3Chart.svelte";
-  import Scatter from "$lib/components/Scatter.svelte";
-  import Battery from "$lib/components/Battery.svelte";
+<!-- src/lib/PricePerformanceScatter.svelte -->
+<script>
+  import { onMount, afterUpdate } from 'svelte';
+  import * as d3 from 'd3';
 
-  interface Skate {
-    name: string;
-    img: string;
-    price: number;
-    battery: string;
-    top_speed: number;
-    range: number;
-    weight: number;
-    max_load: number;
-  }
-
-  let boards:  Skate[] = [
+  export let skateboards = [
     {
       name: "Wowgo 3E",
       img: "https://wowgoboard.com/cdn/shop/products/wowgo-3e-electric-skateboard-longboard-668434.jpg?v=1743667627",
@@ -276,282 +265,197 @@
       max_load: 100,
     },
   ];
+
+  let tooltip = { show: false, content: "", x: 0, y: 0 };
+  let svgInitialized = false;
+
+  function renderChart() {
+    // Skip if no data
+    if (!skateboards || skateboards.length === 0) return;
+
+    const margin = { top: 40, right: 130, bottom: 60, left: 60 };
+    const width = 800 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    // Clear previous SVG if it exists
+    const container = d3.select("#scatterplot-container");
+    container.select("svg").remove();
+
+    const svg = container
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Safely calculate domains
+    const priceValues = skateboards.map(d => d.price).filter(Boolean);
+    const rangeValues = skateboards.map(d => d.range).filter(Boolean);
+    const speedValues = skateboards.map(d => d.top_speed).filter(Boolean);
+    const weightValues = skateboards.map(d => d.weight).filter(Boolean);
+
+    if (priceValues.length === 0 || rangeValues.length === 0) return;
+
+    // Scales with fallbacks
+    const x = d3.scaleLinear()
+      .domain([0, d3.max(priceValues) * 1.1 || 1000])
+      .range([0, width]);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(rangeValues) * 1.1 || 100])
+      .range([height, 0]);
+
+    // Color and size scales with fallbacks
+    const color = d3.scaleSequential(d3.interpolateViridis)
+      .domain([d3.min(speedValues) || 0, d3.max(speedValues) || 30]);
+
+    const size = d3.scaleLinear()
+      .domain([d3.min(weightValues) || 10, d3.max(weightValues) || 30])
+      .range([5, 15]);
+
+    // Axes
+    svg.append("g")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x).tickFormat(d => `$${d}`));
+
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Axis labels
+    svg.append("text")
+      .attr("class", "axis-label")
+      .attr("x", width / 2)
+      .attr("y", height + margin.bottom - 10)
+      .style("text-anchor", "middle")
+      .style("fill", "white")
+      .text("Price (USD)");
+
+    svg.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -height / 2)
+      .attr("y", -margin.left + 15)
+      .style("text-anchor", "middle")
+      .style("fill", "white")
+      .text("Range (miles)");
+
+    // Dots
+    svg.selectAll(".dot")
+      .data(skateboards)
+      .enter()
+      .append("circle")
+      .attr("class", "dot")
+      .attr("cx", d => x(d.price || 0))
+      .attr("cy", d => y(d.range || 0))
+      .attr("r", d => size(d.weight || 15))
+      .style("fill", d => color(d.top_speed || 15))
+      .on("mouseover", function(event, d) {
+        tooltip = {
+          show: true,
+          content: `
+            <strong>${d.name || 'Unknown'}</strong><br>
+            Price: $${d.price || 'N/A'}<br>
+            Range: ${d.range || 'N/A'} miles<br>
+            Top Speed: ${d.top_speed || 'N/A'} mph<br>
+            Weight: ${d.weight || 'N/A'} lbs
+          `,
+          x: event.pageX,
+          y: event.pageY
+        };
+      })
+      .on("mouseout", () => {
+        tooltip.show = false;
+      });
+
+    // Legend
+    const legend = svg.append("g")
+      .attr("transform", `translate(${width + 20}, 20)`);
+
+    const legendScale = d3.scaleLinear()
+      .domain([d3.min(speedValues) || 0, d3.max(speedValues) || 30])
+      .range([0, 100]);
+
+    legend.append("g")
+      .call(d3.axisRight(legendScale).tickFormat(d => `${d} mph`))
+      .select(".domain")
+      .remove();
+
+    legend.selectAll(".legend-color")
+      .data(d3.range(30))
+      .enter()
+      .append("rect")
+      .attr("x", -20)
+      .attr("y", d => 100 - d * 3.33)
+      .attr("width", 15)
+      .attr("height", 3.33)
+      .attr("fill", d => color(legendScale.invert(d * 3.33)));
+
+    svgInitialized = true;
+  }
+
+  onMount(renderChart);
+  afterUpdate(renderChart);
 </script>
-<div class="main-container">
-  <h1>Electric Skateboard Market Analisis</h1>
-  <p>
-    El mercado de los vehiculos de transporte compactos para uso en ciudades ha incrementado significativamente
-    en los últimos años, sin embargo entre estos las patinetas o skateboards electricas parecen no haber 
-    recibido la misma atención que otros vehiculos similares como bicicletas electricas o los controversiales 
-    scooters electricos o monopatines, a continuación vamos a intentar expandir un poco la visión sobre este
-    mercado, analizar las opciónes actuales, un poco argumentar porque se considera que es un mejor medio de transporte
-    que las opciones previamente mencinadas y ofrecer un contexto estadístico sobre el uso de estos vehiculos
-  </p>
 
-  <h2>Estado Actual del Mercado</h2>
-
-  <h2>Jugadores Principales y valor en el mercado</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Marca</th>
-        <th>%Mercado</th>
-        <th>Especialización</th>
-        <th>Rango de Precios</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>Boosted</th>
-        <th>~15% (Pre-bancarota)</th>
-        <th>Alto rendimiento</th>
-        <th>1,000-2,000 USD</th>
-      </tr>
-      <tr>
-        <th>Evolve</th>
-        <th>~20%</th>
-        <th>Premium & Todo terreno</th>
-        <th>1,500-2,000USD</th>
-      </tr>
-      <tr>
-        <th>Meepo</th>
-        <th>~12%</th>
-        <th>Menor Precio</th>
-        <th>400-900USD</th>
-      </tr>
-      <tr>
-        <th>Exway</th>
-        <th>~10%</th>
-        <th>Funcionalidad Inteligente</th>
-        <th>700-1,500USD</th>
-      </tr>
-      <tr>
-        <th>Ownboard</th>
-        <th>~8%</th>
-        <th>Desempeño Balanceado</th>
-        <th>500-1,200USD</th>
-      </tr>
-      <tr>
-        <th>Otros</th>
-        <th>~35%</th>
-        <th>Marcas de Nicho, kits DIY</th>
-        <th>Variable</th>
-      </tr>
-    </tbody>
-  </table>
-  <h2>Oferta de Mercado</h2>
-  <div class="offer-container">
-    {#each boards as value}
-      <div class="item-container">
-        <h4>{value.name}</h4>
-        <div class="offer-item">
-          <img src={value.img} alt="skate">
-        </div>
-        <h4>${value.price}</h4>
-      </div>
-    {/each}
-  </div>
-  <D3Chart boards: {boards}/>
-  <h2>Estadísticas Destacables del Producto</h2>
-  <p>
-    En esta categoría de vehiculo electrico las características que mas definen el segmento
-    y en la que la mayoría de los vendedores se enfocan a la hora de hacer sobresalir su
-    producto son las siguientes.
-  </p>
-  <ul>
-    <li>Rango de autonomía con una carga de batería</li>
-    <li>Portabilidad</li>
-    <li>Velocidad Máxima</li>
-    <li>Capacidad todo terreno</li>
-    <li>Material de la tabla</li>
-  </ul>
-  <h3>Gráfica de distribución Precio vs Rango</h3>
-  <Scatter skateboards: {boards}/>
-  <div class="listas">
-    <div class="lista-item">
-      <h3>Drives</h3>
-      <ul>
-        <li>Motores Hub (silenciosos, bajo mantenimiento)</li>
-        <li>Belt-Driven (Mas Torque, cadenas reemplazables)</li>
-      </ul>
-    </div>
-    <div class="lista-item">
-      <h3>Motores (Afecta a el poder y la eficiencia)</h3>
-      <ul>
-        <li>Motores Sencillos (un solo motor hace todo el empuje)</li>
-        <li>Motores Duales (Dos motores realizan el empuje)</li>
-        <li>Motores Quad o All-wheel (Un motor en cada una de las cuatro ruedas)</li>
-      </ul>
-    </div>
-    <div class="lista-item">
-      <h3>Freno</h3>
-      <ul>
-        <li>Freno Regenerativo (Recupera energía al momento de frenar, tiene impacto en el rango)</li>
-      </ul>
-    </div>
-    <div class="lista-item">
-      <h3>Batería y Eficiencia</h3>
-      <ul>
-        <li>Capacidad de Batería (Wh) vs Rango en el mundo real</li>
-        <li>Soporte para Recarga Rápida (USB-C, Cargadores Propios)</li>
-        <li>Degradación de la batería (Analisis de vida útil)</li>
-      </ul>
-    </div>
-    <div class="lista-item">
-      <h3>Calidad de Construcción y Materiales</h3>
-      <ul>
-        <li><strong>Tipos de Tablas:</strong> Bamboo (Flexible), Fibra de Carbono (Ligero), Maple (duradero)</li>
-        <li><strong>Trucks y llantas:</strong> Polyuretano (78A-90A), tamaño de llanta (90mm-120mm)</li>
-        <li><strong>Resistencia al Agua:</strong>(IP ratings - IP55 vs IP65 vs IP67)</li>
-      </ul>
-    </div>
-  </div>
-
-  <h3>Gráfica de degradación de baterías</h3>
-  <Battery />
-  <h2>Estadisticas de Usuarios</h2>
-  <div class="listas">
-    <div class="lista-item">
-      <h3>Datos Demográficos</h3>
-      <ul>
-        <li>
-          <strong>Usuarios Principales</strong>
-          <ul>
-            <li>Profesionales y estudiantes</li>
-            <li>Entusiastas (Todo terreno y velocidad)</li>
-            <li>Repartidores</li>
-          </ul>
-        </li>
-        <li>
-          <strong>Grupo de Edad</strong>
-          <ul>
-            <li>18-25 (Estudiantes y primerisos)</li>
-            <li>26-40 (Profesionales y trabajadores)</li>
-            <li>40+ (Hobyistas y uso recreacional)</li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div class="listas-item">
-      <h3>Quejas Comunes</h3>
-      <ul>
-        <li><strong>Duración de Batería</strong> (Promocionada vs Real)</li>
-        <li><strong>Durabilidad</strong> (Agotamiento del motor, grietas en las tablas)</li>
-        <li><strong>Ayuda al Consumidor</strong> (Garantías y disponibilidad de repuestos)</li>
-        <li><strong>Seguridad</strong> (Roturas espontaneas, desconecciónes de los mandos)</li>
-      </ul>
-    </div>
-    <div class="listas-item">
-      <h3>Funcionalidades mejor valoradas</h3>
-      <ul>
-        <li><strong>Rango</strong>(Prioridad principal)</li>
-        <li><strong>Velocidad Y Aceleración</strong> (Entusiastas)</li>
-        <li><strong>Portabilidad</strong> (Peso)</li>
-        <li><strong>Conectividad con App</strong> (Customización y diagnosticos)</li>
-        <li><strong>Resistencia al Agua</strong> (Usabilidad en todo tipo de clima)</li>
-      </ul>
-    </div>
-  </div>
-  <h2>Tendencias de la Industria</h2>
-  <h3>Analisis de Principales Marcas</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Marca</th>
-        <th>Fortalezas</th>
-        <th>Debilidades</th>
-        <th>Oportunidades</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th>Evolve</th>
-        <th>Premium y Todo terreno</th>
-        <th>Costo elevado</th>
-        <th>Expandir a transporte Urbano</th>
-      </tr>
-      <tr>
-        <th>Meepo</th>
-        <th>Barato y buen desempeño</th>
-        <th>Diseños Básicos</th>
-        <th>Expansión Global</th>
-      </tr>
-      <tr>
-        <th>Exway</th>
-        <th>Funcionalidad Inteligente</th>
-        <th>Refacciónes limitadas</th>
-        <th>Servicios de Subscripción</th>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>Tendencias Emergentes</h3>
-  <ul>
-    <li><strong>Integración con IA</strong> (Mantenimiento predictivo, manejo adaptativo)</li>
-    <li><strong>Diseño Modular</strong>(Baterías intercambiables, mejoras a los motores)</li>
-    <li><strong>Modelos de Subscripción</strong>(servicios de renta para usuarios en las urbes)</li>
-    <li><strong>Cambios en regulaciónes</strong> (Limites de velocidad y legalidad en la calle)</li>
-  </ul>
-
-  <h3>previsión del futuro</h3>
-  <ul>
-    <li><strong>Mejora en Baterías</strong> (Estado solido, carga rápida)</li>
-    <li><strong>Funcionalidad Autonoma</strong> (Balanceo autonomo, evasión de colisión)</li>
-    <li><strong>Consolidación de mercado</strong>(Adquisición de pequeñas marcas por gigantes como Segway)</li>
-  </ul>
-</div>
 <style>
-  table, thead, tbody, tr, th {
-    border: 1px solid white;
-  }
-
-  .main-container {
-    margin: 5rem 1rem 0 1rem;
-  }
-
-  .offer-container {
-    width: 100%;
-    align-items: center;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    display: flex;
-  }
-
-  .item-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    & h4 {
-      color: white;
-    }
-  }
-
-  .offer-item {
+  .scatterplot-container {
     position: relative;
-    flex: 0 0 auto;
-    margin: 0 1rem;
-    width: 200px;
-    height: 200px;
-    background-color: lightgray;
-    flex-shrink: 0;
-    border-radius: 5px;
-    scroll-snap-align: start;
-    display: flex;
-    justify-content: center;
-    
-    & img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      display: block;
-      border-radius: 5px;
-    }
+    width: 900px;
+    margin: 2rem auto;
   }
-
-  @media (max-with: 500px) {
-    .main-container {
-      margin-top: 1rem;
-    }
+  
+  .dot {
+    opacity: 0.8;
+    stroke: #fff;
+    transition: opacity 0.2s;
+  }
+  
+  .dot:hover {
+    opacity: 1;
+    stroke: #000;
+  }
+  
+  .axis-label {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .tooltip {
+    position: absolute;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 12px;
+    z-index: 10;
+  }
+  
+  .no-data {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
   }
 </style>
+
+<div id="scatterplot-container" class="scatterplot-container">
+  {#if skateboards.length === 0}
+    <div class="no-data">No skateboard data available</div>
+  {/if}
+  
+  {#if tooltip.show}
+    <div class="tooltip" 
+         style="left: {tooltip.x + 10}px; top: {tooltip.y - 28}px"
+         bind:this={tooltipElement}></div>
+  {/if}
+</div>
+
+<script context="module">
+  export function load({ data }) {
+    return {
+      props: {
+        skateboards: data.skateboards || []
+      }
+    };
+  }
+</script>
